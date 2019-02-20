@@ -1,4 +1,6 @@
 // 这个是vue-router 的配置文件
+import nprogress from 'nprogress';
+import 'nprogress/nprogress.css'
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Film from './views/Film.vue';
@@ -7,6 +9,12 @@ import Center from './views/center.vue';
 import City from './views/City.vue';
 import home from './views/home.vue';
 import Detail from './views/Detail.vue';
+import Card from './views/Card.vue';
+import Money from './views/Money.vue';
+import System from './views/System.vue';
+import Login from './views/Login.vue';
+
+nprogress.configure({ showSpinner: false });
 
 Vue.use(VueRouter);
 
@@ -49,10 +57,47 @@ let router = new VueRouter({
 
     },
     {
+      path: '/card',
+      component: Card
+    },
+    {
+      path: '/money',
+      component: Money
+    },
+    {
+      path: '/system',
+      component: System
+    },
+    {
+      path: '/login',
+      component: Login
+    },
+    {
       path: '*',
       redirect: '/films'
     }
   ]
+})
+
+// 全局前置守卫
+router.beforeEach((to, from, next) => {
+  nprogress.start();
+  var pathArray = ['/card', '/money', '/system'];
+  if (pathArray.indexOf(to.path) > -1 && !sessionStorage.getItem('nickname')) {
+    next({
+      path: '/login',
+      query: {
+        redirect: to.fullPath
+      }
+    });
+  } else {
+    next();
+  }
+})
+
+// 全局后置守卫
+router.afterEach((to, from) => {
+  nprogress.done();
 })
 
 // 暴露出口
