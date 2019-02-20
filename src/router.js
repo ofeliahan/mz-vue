@@ -6,8 +6,8 @@ import VueRouter from 'vue-router';
 import Film from './views/Film.vue';
 import Cinemas from './views/Cinema.vue';
 import Center from './views/center.vue';
-import City from './views/City.vue';
-import home from './views/home.vue';
+/* import City from './views/City.vue';
+import home from './views/home.vue'; */
 import Detail from './views/Detail.vue';
 import Card from './views/Card.vue';
 import Money from './views/Money.vue';
@@ -22,10 +22,16 @@ Vue.use(VueRouter);
 let router = new VueRouter({
   // routes  配置路由对照表
   // localhost:8080/#/films  -> Film.vue
+  scrollBehavior (to, from, savePosition){
+    return {
+      x: 0,
+      y: 0
+    }
+  },
   routes: [
     {
       path: '/',
-      component: home,
+      component: () => import('./views/home.vue'),
       // 不是一级路由,路径前面不需要加斜杠
       children: [
         {
@@ -48,7 +54,7 @@ let router = new VueRouter({
     },
     {
       path: '/city',
-      component: City
+      component: () => import('./views/City.vue')
     },
     {
       path: '/detail/:id',
