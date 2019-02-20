@@ -6,6 +6,7 @@ import Cinemas from './views/Cinema.vue';
 import Center from './views/center.vue';
 import City from './views/City.vue';
 import home from './views/home.vue';
+import Detail from './views/Detail.vue';
 
 Vue.use(VueRouter);
 
@@ -40,6 +41,12 @@ let router = new VueRouter({
     {
       path: '/city',
       component: City
+    },
+    {
+      path: '/detail/:id',
+      component: Detail,
+      props: true
+
     },
     {
       path: '*',
